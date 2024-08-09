@@ -4,8 +4,10 @@ import { useFormik } from "formik/dist";
 import { validateLogin } from "../../schemas";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom/dist";
+import { useAuth } from "../../auth/authContext";
 
 function Login() {
+  const { login } = useAuth();
   
   const navigate = useNavigate()
   const onSubmit = async(values)=>{
@@ -14,6 +16,7 @@ function Login() {
         toast.success("Logged In Successfully!",{
           onClose:()=> navigate("/user")
         })
+        login()
     }
     catch(error){
     toast.error(error.message)

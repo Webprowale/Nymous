@@ -1,16 +1,17 @@
 import { Body, Controller, Get, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MessageService } from './message.service';
 import { msgDto } from './msg.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-guard';
+
 
 @Controller('message')
 export class MessageController {
   constructor(private readonly messageService: MessageService) {}
 
-@Get()
-@UseGuards(AuthGuard)
-getMessage(){
-  return this.messageService.getMessage();
+@Get(':id')
+@UseGuards(JwtAuthGuard)
+getMessage(id:number){
+  return this.messageService.getMessage(id);
 }
 
 @Post()

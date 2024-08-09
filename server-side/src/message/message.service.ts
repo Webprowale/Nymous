@@ -5,10 +5,24 @@ import { mesgType } from './mesgtype';
 
 @Injectable()
 export class MessageService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async getMessage() {
-    return await this.prisma.message.findMany();
+  async getMessage(id:number) {
+    const user = await this.prisma.message.findMany({
+      orderBy:{
+        id:'desc'
+      },
+      where:{
+        userId:id 
+      }
+    });
+    if(!user){
+      return {}
+    }
+
+      return{
+        user
+      }
   }
 
   async createMessage(message:mesgType) {
